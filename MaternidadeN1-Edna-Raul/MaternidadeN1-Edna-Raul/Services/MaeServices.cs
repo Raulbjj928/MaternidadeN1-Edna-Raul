@@ -2,6 +2,7 @@
 using MaternidadeN1_Edna_Raul.DTOs;
 using MaternidadeN1_Edna_Raul.Interfaces;
 using MaternidadeN1_Edna_Raul.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MaternidadeN1_Edna_Raul.Services
 {
@@ -14,11 +15,11 @@ namespace MaternidadeN1_Edna_Raul.Services
             _dataContext = dataContext;
         }
 
-        public Task<MaeModel> PostMae(MaeDTO maeRequest)
+        public async Task<MaeModel> PostMae(MaeDTO maeRequest)
         {
-            //bool validar = await ValidarPost(maeRequest);
+            bool validar = await ValidarPost(maeRequest);
 
-            //if (!validar) { return new MaeModel(); }
+            if (!validar) { return new MaeModel(); }
 
             var mae = new MaeModel()
             {
@@ -35,45 +36,74 @@ namespace MaternidadeN1_Edna_Raul.Services
                 HistoricoMedico = maeRequest.HistoricoMedico
             };
 
-            //_dataContext.Musicas.Add(musica);
-            //await _dataContext.SaveChangesAsync();
+            _dataContext.Mae.Add(mae);
+            await _dataContext.SaveChangesAsync();
 
-            throw new NotImplementedException();
+            return mae;
         }
 
-        private Task<bool> ValidarPost(object musicaRequest)
+        public async Task<List<MaeModel>> GetAllMaes()
+        {
+            return await _dataContext.Mae.ToListAsync();
+        }
+
+        public async Task<MaeModel> GetMaeByCPF(string cpf)
+        {
+            return await _dataContext.Mae.FirstOrDefaultAsync(m => m.CPF == cpf);
+        }
+
+        public async Task<MaeModel> GetMaeByID(int id)
+        {
+            return await _dataContext.Mae.FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public async Task<List<MaeModel>> GetMaesEstadoCivil(string estadoCivil)
+        {
+            return await _dataContext.Mae.Where(m => m.EstadoCivil == estadoCivil).ToListAsync();
+        }
+
+        public async Task<List<RecemNascidoModel>> GetRNsPorMae(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<RecemNascidoModel>> GetAllMaes()
+        public async Task<MaeModel> UpdateMae(int id, MaeDTO maeRequest)
         {
-            throw new NotImplementedException();
+            var maeDB = await GetMaeByID(id);
+
+            if (maeDB is not null)
+            {
+                maeDB.Nome = maeRequest.Nome;
+                maeDB.Sobrenome = maeRequest.Sobrenome;
+                maeDB.DataNascimento = maeRequest.DataNascimento;
+                maeDB.RegistroGeral = maeRequest.RegistroGeral;
+                maeDB.CPF = maeRequest.CPF;
+                maeDB.Telefone = maeRequest.Telefone;
+                maeDB.EstadoCivil = maeRequest.EstadoCivil;
+                maeDB.Profissao = maeRequest.Profissao;
+                maeDB.HistoricoMedico = maeRequest.HistoricoMedico;
+
+                _dataContext.Update(maeDB);
+                await _dataContext.SaveChangesAsync();
+
+                return maeDB;
+            }
+
+            return new MaeModel();
         }
 
-        public Task<MaeModel> GetMaeByCPF(int id)
+        private async Task<bool> ValidarPost(MaeDTO maeRequest)
         {
-            throw new NotImplementedException();
-        }
+            var maeDB = await GetMaeByCPF(maeRequest.CPF);
 
-        public Task<MaeModel> GetMaeByID(int id)
-        {
-            throw new NotImplementedException();
-        }
+            bool invalido = false;
 
-        public Task<List<RecemNascidoModel>> GetMaesEstadoCivil(string estadoCivil)
-        {
-            throw new NotImplementedException();
-        }
+            if (maeDB is not null)
+            {
+                invalido = true;
+            }
 
-        public Task<List<RecemNascidoModel>> GetRNsPorMae(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<MaeModel> UpdateMae(int id, MaeDTO maeRequest)
-        {
-            throw new NotImplementedException();
+            return invalido ? false : true;
         }
     }
 }
