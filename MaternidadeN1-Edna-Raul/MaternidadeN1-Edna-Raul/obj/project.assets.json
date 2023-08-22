@@ -460,23 +460,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\raulh\\.nuget\\packages\\": {},
+    "C:\\Users\\ednad\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Estudos\\Devs2Blu\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul.csproj",
+      "projectUniqueName": "C:\\Users\\ednad\\Downloads\\MaternidadeAPI\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul.csproj",
       "projectName": "MaternidadeN1-Edna-Raul",
-      "projectPath": "C:\\Estudos\\Devs2Blu\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul.csproj",
-      "packagesPath": "C:\\Users\\raulh\\.nuget\\packages\\",
-      "outputPath": "C:\\Estudos\\Devs2Blu\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\obj\\",
+      "projectPath": "C:\\Users\\ednad\\Downloads\\MaternidadeAPI\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul.csproj",
+      "packagesPath": "C:\\Users\\ednad\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ednad\\Downloads\\MaternidadeAPI\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\MaternidadeN1-Edna-Raul\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\raulh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ednad\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -485,6 +485,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -531,7 +532,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }
