@@ -12,5 +12,6 @@
         public int Apgar { get; set; }
         public string CondicaoMedica { get; set; } = string.Empty;
         public int MaeId { get; set; }
+        public MaeModel Mae { get; set; }
     }
 }

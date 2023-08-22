@@ -1,4 +1,5 @@
 ﻿using MaternidadeN1_Edna_Raul.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
@@ -19,9 +20,9 @@ namespace MaternidadeN1_Edna_Raul.Data
 
             //Mapeamento da relação 1 para N entre genero e musica
             modelBuilder.Entity<RecemNascidoModel>()
-                .HasOne(m => m.Genero)
+                .HasOne(m => m.Mae)
                 .WithMany()
-                .HasForeignKey(m => m.GeneroId)
+                .HasForeignKey(m => m.MaeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
 
