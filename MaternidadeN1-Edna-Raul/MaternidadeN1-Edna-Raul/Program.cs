@@ -1,4 +1,9 @@
 
+using MaternidadeN1_Edna_Raul.Data;
+using MaternidadeN1_Edna_Raul.Interfaces;
+using MaternidadeN1_Edna_Raul.Services;
+using Microsoft.EntityFrameworkCore;
+
 namespace MaternidadeN1_Edna_Raul
 {
     public class Program
@@ -10,9 +15,16 @@ namespace MaternidadeN1_Edna_Raul
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddDbContext<DataContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+            );
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddScoped<IMaeService, MaeServices>();
+            builder.Services.AddScoped<IRecemNascidoService, RecemNascidoServices>();
 
             var app = builder.Build();
 
