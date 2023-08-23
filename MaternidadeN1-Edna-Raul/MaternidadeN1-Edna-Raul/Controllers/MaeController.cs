@@ -5,6 +5,7 @@ using MaternidadeN1_Edna_Raul.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MaternidadeN1_Edna_Raul.Controllers
 {
@@ -24,7 +25,7 @@ namespace MaternidadeN1_Edna_Raul.Controllers
         {
             var maes = await _service.GetAllMaes();
 
-            if (maes == null) { return NotFound(); }
+            if (maes.IsNullOrEmpty()) { return NotFound(); }
 
             return Ok(maes);
         }
@@ -54,7 +55,7 @@ namespace MaternidadeN1_Edna_Raul.Controllers
         {
             var bebesPorMae = await _service.GetRNsPorMae(id);
 
-            if (bebesPorMae == null) { return NotFound(); }
+            if (bebesPorMae.IsNullOrEmpty()) { return NotFound(); }
 
             return Ok(bebesPorMae);
         }
@@ -64,7 +65,7 @@ namespace MaternidadeN1_Edna_Raul.Controllers
         {
             var maes = await _service.GetMaesEstadoCivil(estadoCivil);
 
-            if (maes == null) { return NotFound(); }
+            if (maes.IsNullOrEmpty()) { return NotFound(); }
 
             return Ok(maes);
         }
