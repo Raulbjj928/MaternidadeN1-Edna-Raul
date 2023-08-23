@@ -1,6 +1,7 @@
 ﻿using MaternidadeN1_Edna_Raul.DTOs;
 using MaternidadeN1_Edna_Raul.Interfaces;
 using MaternidadeN1_Edna_Raul.Models;
+using MaternidadeN1_Edna_Raul.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -96,6 +97,14 @@ namespace MaternidadeN1_Edna_Raul.Controllers
             if (mae.Id is null) { return NotFound($"ID : {id} não encontrado!"); }
 
             return Ok(mae);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteRecemNascido(int id)
+        {
+            await _service.DeleteMae(id);
+
+            return NoContent();
         }
     }
 }

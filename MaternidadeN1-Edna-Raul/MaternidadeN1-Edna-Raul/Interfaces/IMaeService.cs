@@ -13,5 +13,6 @@ namespace MaternidadeN1_Edna_Raul.Interfaces
         Task<MaeModel> PostMae(MaeDTO maeRequest);
         Task<MaeModel> UpdateMae(int id, MaeDTO maeRequest);
         Task<MaeModel> PatchMaeHistoricoMedico(int id, string historicoRequest);
+        Task DeleteMae(int id);
     }
 }

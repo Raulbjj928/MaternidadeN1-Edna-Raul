@@ -119,7 +119,16 @@ namespace MaternidadeN1_Edna_Raul.Services
 
             return new MaeModel();
         }
+        public async Task DeleteMae(int id)
+        {
+            var mae = await GetMaeByID(id);
 
+            if (mae != null)
+            {
+                _dataContext.Mae.Remove(mae);
+                await _dataContext.SaveChangesAsync();
+            }
+        }
 
         private async Task<bool> ValidarPost(MaeDTO maeRequest)
         {
