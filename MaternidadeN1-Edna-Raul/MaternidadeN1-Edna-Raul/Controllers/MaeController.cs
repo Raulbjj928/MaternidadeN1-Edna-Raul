@@ -1,9 +1,11 @@
 ﻿using MaternidadeN1_Edna_Raul.DTOs;
 using MaternidadeN1_Edna_Raul.Interfaces;
 using MaternidadeN1_Edna_Raul.Models;
+using MaternidadeN1_Edna_Raul.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MaternidadeN1_Edna_Raul.Controllers
 {
@@ -23,7 +25,7 @@ namespace MaternidadeN1_Edna_Raul.Controllers
         {
             var maes = await _service.GetAllMaes();
 
-            if (maes == null) { return NotFound(); }
+            if (maes.IsNullOrEmpty()) { return NotFound(); }
 
             return Ok(maes);
         }
@@ -47,13 +49,23 @@ namespace MaternidadeN1_Edna_Raul.Controllers
 
             return Ok(mae);
         }
+        
+        [HttpGet("RNsPorMaeId/{id}")]
+        public async Task<ActionResult<List<RecemNascidoModel>>> GetRNsPorMaeId(int id)
+        {
+            var bebesPorMae = await _service.GetRNsPorMae(id);
+
+            if (bebesPorMae.IsNullOrEmpty()) { return NotFound(); }
+
+            return Ok(bebesPorMae);
+        }
 
         [HttpGet("MaePorstadoCivil/{estadoCivil}")]
         public async Task<ActionResult<List<MaeModel>>> GetMaesPorEstadoCivil(string estadoCivil)
         {
             var maes = await _service.GetMaesEstadoCivil(estadoCivil);
 
-            if (maes == null) { return NotFound(); }
+            if (maes.IsNullOrEmpty()) { return NotFound(); }
 
             return Ok(maes);
         }
@@ -75,7 +87,25 @@ namespace MaternidadeN1_Edna_Raul.Controllers
 
             if (mae.Id is null) { return NotFound($"ID : {id} não encontrado!"); }
 
-            return Ok($"{mae}\n atualizado com sucesso!");
+            return Ok(mae);
+        }
+
+        [HttpPatch("UpdateMaeHistorico/{id}")]
+        public async Task<ActionResult<MaeModel>> PatchMaeHistoricoMedico(int id, string historicoRequest)
+        {
+            var mae = await _service.PatchMaeHistoricoMedico(id, historicoRequest);
+
+            if (mae.Id is null) { return NotFound($"ID : {id} não encontrado!"); }
+
+            return Ok(mae);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteRecemNascido(int id)
+        {
+            await _service.DeleteMae(id);
+
+            return NoContent();
         }
     }
 }
