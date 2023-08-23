@@ -14,17 +14,50 @@ namespace MaternidadeN1_Edna_Raul.Services
 
         public RecemNascidoServices(DataContext context) { _context = context; }
 
-        public async Task<RecemNascidoModel> GetRecemNascidoByID(int id)
+        public async Task<List<RecemNascidoModel>> GetAllRecemNascidos()
         {
-            var recemNascido = await _context.Bebe.Include(b => b.Mae)
-                .FirstOrDefaultAsync(b => b.Id == id);
-            if (recemNascido == null) return recemNascido;
-            return recemNascido;
+            return await _context.Bebe.ToListAsync();
+        }
+        public async Task<RecemNascidoModel> PostRecemNascido(RecemNascidoDTO recemNascidoRequest)
+        {
+
+            var mae = await _context.Mae.FirstOrDefaultAsync(m => m.Id == recemNascidoRequest.MaeId);
+            if(mae is not null)
+
+            {
+                var bebe = new RecemNascidoModel()
+                {
+                    Nome = recemNascidoRequest.Nome,
+                    Genero = recemNascidoRequest.Genero,
+                    DataNascimento = recemNascidoRequest.DataNascimento,
+                    Peso = recemNascidoRequest.Peso,
+                    Altura = recemNascidoRequest.Altura,
+                    TipoDeParto = recemNascidoRequest.TipoDeParto,
+                    Apgar = recemNascidoRequest.Apgar,
+                    CondicaoMedica = recemNascidoRequest.CondicaoMedica,
+                    MaeId = recemNascidoRequest.MaeId,
+                    Mae = mae
+
+                };
+
+                _context.Bebe.Add(bebe);
+                await _context.SaveChangesAsync();
+                return bebe;
+
+            }
+
+            return new RecemNascidoModel();
+
+            
+        }
+        public async Task<RecemNascidoModel> GetRecemNascidoByID(int id)
+        { 
+            return await _context.Bebe.FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task<List<RecemNascidoModel>> GetRecemNascidoPorApgar(int apgar)
         {
-            return await _context.Bebe.Include(b => b.Mae).ToListAsync();
+            return await _context.Bebe.Include(b => b.Apgar).ToListAsync();
         }
 
         public async Task DeleteRecemNascido(int id)
@@ -37,22 +70,41 @@ namespace MaternidadeN1_Edna_Raul.Services
             }
         }
 
-        
-
-        
-
-        public Task<List<RecemNascidoModel>> GetRecemNascidoPorGenero(string Genero)//listar pela mae
+        public async Task<RecemNascidoModel> UpdateRecemNascido(int id, RecemNascidoDTO recemNascidoRequest)
         {
-            throw new NotImplementedException();
+            var bebe = await GetRecemNascidoByID(id);
+            if (bebe != null)
+            {
+                bebe.Nome = recemNascidoRequest.Nome; 
+                bebe.Genero = recemNascidoRequest.Genero;
+                bebe.DataNascimento = recemNascidoRequest.DataNascimento;
+                bebe.TipoDeParto = recemNascidoRequest.TipoDeParto;
+                bebe.Apgar = recemNascidoRequest.Apgar;
+                bebe.Altura = recemNascidoRequest.Altura;
+                bebe.Peso = recemNascidoRequest.Peso;
+                bebe.CondicaoMedica = recemNascidoRequest.CondicaoMedica;
+
+                _context.Bebe.Update(bebe);
+                await _context.SaveChangesAsync();
+                return bebe;
+            }
+
+            return new RecemNascidoModel();
+            
         }
 
-        public async Task<List<RecemNascidoModel>> GetRecemNascidoPorPeso(int peso)//listar pela mae
+        public async Task<List<RecemNascidoModel>> GetRecemNascidoPorGenero(string genero, int idMae)//listar pela mae
         {
-            var recemNascidos = await _context.Bebe.Include(b => b.Mae)
-                .Where(b => b.Peso > peso)
+            return await _context.Bebe.Include(b => b.Mae)
+                .Where(b => b.Mae.Id == idMae && b.Genero == genero)
                 .ToListAsync();
+        }
 
-            return recemNascidos;
+        public async Task<List<RecemNascidoModel>> GetRecemNascidoPorPeso(int peso, int idMae)//listar pela mae
+        {
+            return await _context.Bebe.Include(b => b.Mae)
+                .Where(b => b.Mae.Id == idMae && b.Peso > peso)
+                .ToListAsync();
         }
 
         public Task<List<RecemNascidoModel>> GetRecemNascidoPorTipoParto(string tipoDeParto)//listar pela mae
@@ -60,18 +112,8 @@ namespace MaternidadeN1_Edna_Raul.Services
             throw new NotImplementedException();
         }
 
-        public async Task<RecemNascidoModel> PostRecemNascido(RecemNascidoModel recemNascido)
-        {
-            _context.Bebe.Add(recemNascido);
-            await _context.SaveChangesAsync();
-            return recemNascido;
-        }
+        
 
-        public async Task UpdateRecemNascido(int id, RecemNascidoDTO recemNascidoRequest)
-        {
-            var recemNascido = await _context.Bebe.FirstOrDefaultAsync(b => b.Id == id);
-            _context.Entry(recemNascidoRequest).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-        }
+        
     }
 }
