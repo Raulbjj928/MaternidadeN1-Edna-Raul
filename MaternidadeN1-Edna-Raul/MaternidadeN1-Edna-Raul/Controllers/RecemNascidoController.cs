@@ -3,6 +3,7 @@ using MaternidadeN1_Edna_Raul.Interfaces;
 using MaternidadeN1_Edna_Raul.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.Runtime.CompilerServices;
 
 namespace MaternidadeN1_Edna_Raul.Controllers
@@ -47,14 +48,33 @@ namespace MaternidadeN1_Edna_Raul.Controllers
             return Ok(recemNascido);
         }
 
-        /*[HttpGet("id/{id}/RecemNascido/{genero}")]
+        [HttpGet("idMae/{idMae}/RecemNascido/{genero}")]
         public async Task<ActionResult<List<RecemNascidoModel>>> GetRecemNascidoPorGenero(string genero, int idMae)
         {
             var recemNascidosGenero = await _recemNascidoService.GetRecemNascidoPorGenero(genero, idMae);
-            if (recemNascidosGenero == null || recemNascidosGenero.Count == 0)
+            if (recemNascidosGenero.IsNullOrEmpty())
                 return NotFound("seleção não encontrada");
             return recemNascidosGenero;
-        }*/
+        }
+        [HttpGet("idMae/{idMae}/RecemNascido/tipoDeParto/{tipoDeParto}")]
+        public async Task<ActionResult<List<RecemNascidoModel>>> GetRecemNascidoPorTipoParto(string tipoDeParto, int idMae)
+        {
+            var recemNascidosTipoParto = await _recemNascidoService.GetRecemNascidoPorTipoParto(tipoDeParto, idMae);
+            if (recemNascidosTipoParto.IsNullOrEmpty())
+                return NotFound("seleção não encontrada");
+            return recemNascidosTipoParto;
+        }
+
+        [HttpGet("idMae/{idMae}/RecemNascido/peso/{peso}")]
+        public async Task<ActionResult<List<RecemNascidoModel>>> GetRecemNascidoPorPeso(int peso, int idMae)
+        {
+            var recemNascidosPorPeso = await _recemNascidoService.GetRecemNascidoPorPeso(peso, idMae);
+            if (recemNascidosPorPeso.IsNullOrEmpty())
+                return NotFound("seleção não encontrada");
+            return recemNascidosPorPeso;
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<RecemNascidoModel>> PostRecemNascido(RecemNascidoDTO recemNascidoRequest)
         {
@@ -69,7 +89,7 @@ namespace MaternidadeN1_Edna_Raul.Controllers
             if (bebe == null) 
                 return NotFound("Id não encontrado!");
                        
-            return Ok("Recem Nascido atualizado com sucesso!");
+            return Ok(bebe);
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult<int>> DeleteRecemNascido(int id)

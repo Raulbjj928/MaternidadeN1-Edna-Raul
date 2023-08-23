@@ -57,7 +57,7 @@ namespace MaternidadeN1_Edna_Raul.Services
 
         public async Task<List<RecemNascidoModel>> GetRecemNascidoPorApgar(int apgar)
         {
-            return await _context.Bebe.Include(b => b.Apgar).ToListAsync();
+            return await _context.Bebe.Where(b => b.Apgar == apgar).ToListAsync();
         }
 
         public async Task DeleteRecemNascido(int id)
@@ -107,9 +107,11 @@ namespace MaternidadeN1_Edna_Raul.Services
                 .ToListAsync();
         }
 
-        public Task<List<RecemNascidoModel>> GetRecemNascidoPorTipoParto(string tipoDeParto)//listar pela mae
+        public async Task<List<RecemNascidoModel>> GetRecemNascidoPorTipoParto(string tipoDeParto, int idMae)//listar pela mae
         {
-            throw new NotImplementedException();
+            return await _context.Bebe.Include(b => b.Mae)
+                .Where(b => b.Mae.Id == idMae && b.TipoDeParto == tipoDeParto)
+                .ToListAsync();
         }
 
         
