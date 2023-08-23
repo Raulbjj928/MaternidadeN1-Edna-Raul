@@ -47,6 +47,16 @@ namespace MaternidadeN1_Edna_Raul.Controllers
 
             return Ok(mae);
         }
+        
+        [HttpGet("RNsPorMaeId/{id}")]
+        public async Task<ActionResult<List<RecemNascidoModel>>> GetRNsPorMaeId(int id)
+        {
+            var bebesPorMae = await _service.GetRNsPorMae(id);
+
+            if (bebesPorMae == null) { return NotFound(); }
+
+            return Ok(bebesPorMae);
+        }
 
         [HttpGet("MaePorstadoCivil/{estadoCivil}")]
         public async Task<ActionResult<List<MaeModel>>> GetMaesPorEstadoCivil(string estadoCivil)
@@ -75,7 +85,17 @@ namespace MaternidadeN1_Edna_Raul.Controllers
 
             if (mae.Id is null) { return NotFound($"ID : {id} não encontrado!"); }
 
-            return Ok($"{mae}\n atualizado com sucesso!");
+            return Ok(mae);
+        }
+
+        [HttpPatch("UpdateMaeHistorico/{id}")]
+        public async Task<ActionResult<MaeModel>> PatchMaeHistoricoMedico(int id, string historicoRequest)
+        {
+            var mae = await _service.PatchMaeHistoricoMedico(id, historicoRequest);
+
+            if (mae.Id is null) { return NotFound($"ID : {id} não encontrado!"); }
+
+            return Ok(mae);
         }
     }
 }

@@ -64,7 +64,18 @@ namespace MaternidadeN1_Edna_Raul.Services
 
         public async Task<List<RecemNascidoModel>> GetRNsPorMae(int id)
         {
-            throw new NotImplementedException();
+            var maeDB = await GetMaeByID(id);
+
+            if (maeDB is not null)
+            {
+                var recemNascidos = await _dataContext.Bebe
+                    .Where(bebe => bebe.MaeId == id)
+                    .ToListAsync();
+
+                return recemNascidos;
+            }
+
+            return new List<RecemNascidoModel>();
         }
 
         public async Task<MaeModel> UpdateMae(int id, MaeDTO maeRequest)
@@ -91,6 +102,24 @@ namespace MaternidadeN1_Edna_Raul.Services
 
             return new MaeModel();
         }
+
+        public async Task<MaeModel> PatchMaeHistoricoMedico(int id, string historicoRequest)
+        {
+            var maeDB = await GetMaeByID(id);
+
+            if (maeDB is not null)
+            {
+                maeDB.HistoricoMedico = historicoRequest;
+
+                _dataContext.Update(maeDB);
+                await _dataContext.SaveChangesAsync();
+
+                return maeDB;
+            }
+
+            return new MaeModel();
+        }
+
 
         private async Task<bool> ValidarPost(MaeDTO maeRequest)
         {

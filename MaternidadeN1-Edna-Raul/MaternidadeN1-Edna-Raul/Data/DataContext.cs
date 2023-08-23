@@ -16,7 +16,7 @@ namespace MaternidadeN1_Edna_Raul.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //Mapeamento da relação 1 para N entre genero e musica
+            //Mapeamento da relação 1 para N entre Bebe e Mae
             modelBuilder.Entity<RecemNascidoModel>()
                 .HasOne(m => m.Mae)
                 .WithMany()

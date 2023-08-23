@@ -12,7 +12,6 @@ namespace MaternidadeN1_Edna_Raul.Interfaces
         Task<List<RecemNascidoModel>> GetRNsPorMae(int id);
         Task<MaeModel> PostMae(MaeDTO maeRequest);
         Task<MaeModel> UpdateMae(int id, MaeDTO maeRequest);
-
-        //todo fazer PATCH
+        Task<MaeModel> PatchMaeHistoricoMedico(int id, string historicoRequest);
     }
 }
